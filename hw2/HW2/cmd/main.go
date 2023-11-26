@@ -1,17 +1,13 @@
-package cmd
+package main
 
 import (
+	api "awesomeProject"
 	"log"
 	"net/http"
 )
 
 func main() {
-	http.HandleFunc("/api/hello", func(w http.ResponseWriter, r *http.Request) {
-		_, err := w.Write([]byte("Hello, from server!\n"))
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-	})
-	log.Fatal(http.ListenAndServe("localhost:8080", nil))
+	api := api.New("localhost:8080", http.NewServeMux())
+	api.FillEndPoints()
+	log.Fatal(api.ListenAndServe())
 }
